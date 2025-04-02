@@ -1,5 +1,6 @@
 package org.example.functionalInterfaces;
 
+@FunctionalInterface
 public interface MyFunctionalInterface {
     void doSomething();
 

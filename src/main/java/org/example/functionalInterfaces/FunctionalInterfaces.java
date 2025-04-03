@@ -2,6 +2,7 @@ package org.example.functionalInterfaces;
 
 public class FunctionalInterfaces {
     public static void main(String[] args) {
+
         // Using a lambda expression to implement the functional interface
         MyFunctionalInterface myFunc = () -> System.out.println("Hello, World!");
         myFunc.doSomething();

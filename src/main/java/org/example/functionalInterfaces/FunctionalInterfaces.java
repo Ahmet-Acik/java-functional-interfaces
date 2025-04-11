@@ -3,6 +3,7 @@ package org.example.functionalInterfaces;
     import java.util.*;
     import java.util.concurrent.CompletableFuture;
     import java.util.function.*;
+    import java.util.stream.Collectors;
     import java.util.stream.IntStream;
 
     public class FunctionalInterfaces {
@@ -97,5 +98,68 @@ package org.example.functionalInterfaces;
             items.stream()
                 .filter(item -> item.startsWith("a"))
                 .forEach(System.out::println);
+        }
+
+        private static void demonstrateAdvancedStreamOperations() {
+            System.out.println("\n=== Advanced Stream Operations ===");
+
+            // Example 1: Filtering and mapping
+            List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve");
+            System.out.println("Names starting with 'C' in uppercase:");
+            names.stream()
+                 .filter(name -> name.startsWith("C"))
+                 .map(String::toUpperCase)
+                 .forEach(System.out::println);
+
+            // Example 2: Grouping by length
+            System.out.println("\nGrouping names by length:");
+            Map<Integer, List<String>> groupedByLength = names.stream()
+                                                              .collect(Collectors.groupingBy(String::length));
+            groupedByLength.forEach((length, group) -> System.out.println(length + ": " + group));
+
+            // Example 3: Partitioning by condition
+            System.out.println("\nPartitioning names by length > 3:");
+            Map<Boolean, List<String>> partitioned = names.stream()
+                                                          .collect(Collectors.partitioningBy(name -> name.length() > 3));
+            partitioned.forEach((key, value) -> System.out.println(key + ": " + value));
+
+            // Example 4: Generating a range of numbers
+            System.out.println("\nEven numbers from 1 to 10:");
+            IntStream.rangeClosed(1, 10)
+                     .filter(n -> n % 2 == 0)
+                     .forEach(System.out::println);
+
+            // Example 5: Finding max and min
+            System.out.println("\nLongest name:");
+            names.stream()
+                 .max(Comparator.comparingInt(String::length))
+                 .ifPresent(System.out::println);
+
+            System.out.println("\nShortest name:");
+            names.stream()
+                 .min(Comparator.comparingInt(String::length))
+                 .ifPresent(System.out::println);
+
+            // Example 6: FlatMapping nested lists
+            System.out.println("\nFlattening nested lists:");
+            List<List<String>> nestedLists = Arrays.asList(
+                Arrays.asList("A", "B"),
+                Arrays.asList("C", "D"),
+                Arrays.asList("E", "F")
+            );
+            nestedLists.stream()
+                       .flatMap(List::stream)
+                       .forEach(System.out::println);
+
+            // Example 7: Summing numbers
+            System.out.println("\nSum of numbers from 1 to 5:");
+            int sum = IntStream.rangeClosed(1, 5).sum();
+            System.out.println(sum);
+
+            // Example 8: Collecting to a set
+            System.out.println("\nCollecting distinct names to a set:");
+            Set<String> distinctNames = names.stream()
+                                             .collect(Collectors.toSet());
+            System.out.println(distinctNames);
         }
     }

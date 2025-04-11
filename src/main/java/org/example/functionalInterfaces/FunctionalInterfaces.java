@@ -5,7 +5,7 @@ public class FunctionalInterfaces {
 
         // Using a lambda expression to implement the functional interface
         MyFunctionalInterface myFunc = () -> System.out.println("Hello, World!");
-        myFunc.doSomething();
+        myFunc.execute();
 
         // Using a method reference to call a default method
         myFunc.defaultMethod();

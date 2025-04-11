@@ -223,4 +223,43 @@ package org.example.functionalInterfaces;
             System.out.println(concatenatedNames.trim());
         }
 
+        private static void demonstrateLambdaAndMethodReferences() {
+            System.out.println("\n=== Lambda and Method References ===");
+
+            // Example 1: Using a lambda to implement a functional interface
+            Runnable lambdaRunnable = () -> System.out.println("Running with a lambda!");
+            lambdaRunnable.run();
+
+            // Example 2: Using a method reference to a static method
+            Consumer<String> staticMethodReference = System.out::println;
+            staticMethodReference.accept("Hello from a static method reference!");
+
+            // Example 3: Using a method reference to an instance method of a particular object
+            String message = "Hello, World!";
+            Supplier<Integer> instanceMethodReference = message::length;
+            System.out.println("Length of the message: " + instanceMethodReference.get());
+
+            // Example 4: Using a method reference to an instance method of an arbitrary object
+            List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+            System.out.println("Names in uppercase:");
+            names.stream()
+                 .map(String::toUpperCase)
+                 .forEach(System.out::println);
+
+            // Example 5: Using a constructor reference
+            Supplier<List<String>> constructorReference = ArrayList::new;
+            List<String> newList = constructorReference.get();
+            newList.add("New Item");
+            System.out.println("List created using constructor reference: " + newList);
+
+            // Example 6: Combining lambdas and method references
+            BiFunction<String, String, String> concatenate = String::concat;
+            System.out.println("Concatenated string: " + concatenate.apply("Hello, ", "Lambda!"));
+
+            // Example 7: Using lambdas for custom logic
+            Predicate<Integer> isEven = number -> number % 2 == 0;
+            System.out.println("Is 4 even? " + isEven.test(4));
+            System.out.println("Is 5 even? " + isEven.test(5));
+        }
+
     }

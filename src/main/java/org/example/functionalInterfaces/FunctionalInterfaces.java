@@ -14,6 +14,8 @@ package org.example.functionalInterfaces;
             demonstrateCompletableFuture();
             demonstrateAdvancedStreamOperations();
             demonstrateMapStreamOperations();
+            demonstrateLambdaAndMethodReferences();
+            demonstrateStreamsWithDifferentDataTypes();
 
         }
 

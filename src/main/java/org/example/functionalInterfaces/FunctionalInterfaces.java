@@ -162,4 +162,62 @@ package org.example.functionalInterfaces;
                                              .collect(Collectors.toSet());
             System.out.println(distinctNames);
         }
+
+        private static void demonstrateMapStreamOperations() {
+            System.out.println("\n=== Map Stream Operations ===");
+
+            // Example dataset: Map of employee IDs and their names
+            Map<Integer, String> employees = Map.of(
+                1, "Alice",
+                2, "Bob",
+                3, "Charlie",
+                4, "David",
+                5, "Eve"
+            );
+
+            // Example 1: Filtering entries by key
+            System.out.println("Employees with IDs greater than 2:");
+            employees.entrySet().stream()
+                     .filter(entry -> entry.getKey() > 2)
+                     .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+
+            // Example 2: Mapping values to uppercase
+            System.out.println("\nEmployee names in uppercase:");
+            employees.values().stream()
+                     .map(String::toUpperCase)
+                     .forEach(System.out::println);
+
+            // Example 3: Collecting filtered entries into a new Map
+            System.out.println("\nFiltered employees (IDs > 3) collected into a new Map:");
+            Map<Integer, String> filteredEmployees = employees.entrySet().stream()
+                                                              .filter(entry -> entry.getKey() > 3)
+                                                              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            System.out.println(filteredEmployees);
+
+            // Example 4: Sorting entries by value
+            System.out.println("\nEmployees sorted by name:");
+            employees.entrySet().stream()
+                     .sorted(Map.Entry.comparingByValue())
+                     .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+
+            // Example 5: Counting entries with names starting with 'A'
+            System.out.println("\nCount of employees with names starting with 'A':");
+            long count = employees.values().stream()
+                                  .filter(name -> name.startsWith("A"))
+                                  .count();
+            System.out.println(count);
+
+            // Example 6: Grouping names by their first letter
+            System.out.println("\nGrouping employees by the first letter of their names:");
+            Map<Character, List<String>> groupedByFirstLetter = employees.values().stream()
+                                                                         .collect(Collectors.groupingBy(name -> name.charAt(0)));
+            groupedByFirstLetter.forEach((letter, names) -> System.out.println(letter + ": " + names));
+
+            // Example 7: Reducing to a single concatenated string of names
+            System.out.println("\nConcatenated employee names:");
+            String concatenatedNames = employees.values().stream()
+                                                .reduce("", (a, b) -> a + b + " ");
+            System.out.println(concatenatedNames.trim());
+        }
+
     }

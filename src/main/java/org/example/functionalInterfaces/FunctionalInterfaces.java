@@ -262,4 +262,79 @@ package org.example.functionalInterfaces;
             System.out.println("Is 5 even? " + isEven.test(5));
         }
 
+        private static void demonstrateStreamsWithDifferentDataTypes() {
+            System.out.println("\n=== Streams with Different Data Types ===");
+
+            // Example 1: Stream of Integers
+            System.out.println("Square of integers:");
+            List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+            integers.stream()
+                    .map(n -> n * n)
+                    .forEach(System.out::println);
+
+            // Example 2: Stream of Doubles
+            System.out.println("\nHalf of doubles:");
+            List<Double> doubles = Arrays.asList(2.0, 4.0, 6.0, 8.0);
+            doubles.stream()
+                   .map(d -> d / 2)
+                   .forEach(System.out::println);
+
+            // Example 3: Stream of Strings
+            System.out.println("\nStrings with length greater than 3:");
+            List<String> strings = Arrays.asList("cat", "elephant", "dog", "tiger");
+            strings.stream()
+                   .filter(s -> s.length() > 3)
+                   .forEach(System.out::println);
+
+            // Example 4: Stream of Characters
+            System.out.println("\nUppercase characters:");
+            String word = "stream";
+            word.chars()
+                .mapToObj(c -> (char) c)
+                .map(Character::toUpperCase)
+                .forEach(System.out::println);
+
+            // Example 5: Stream of Booleans
+            System.out.println("\nCount of true values:");
+            List<Boolean> booleans = Arrays.asList(true, false, true, true, false);
+            long trueCount = booleans.stream()
+                                     .filter(b -> b)
+                                     .count();
+            System.out.println(trueCount);
+
+            // Example 6: Stream of Custom Objects
+            System.out.println("\nCustom objects sorted by age:");
+            class Person {
+                String name;
+                int age;
+
+                Person(String name, int age) {
+                    this.name = name;
+                    this.age = age;
+                }
+
+                @Override
+                public String toString() {
+                    return name + " (" + age + ")";
+                }
+            }
+            List<Person> people = Arrays.asList(
+                new Person("Alice", 30),
+                new Person("Bob", 25),
+                new Person("Charlie", 35)
+            );
+            people.stream()
+                  .sorted(Comparator.comparingInt(p -> p.age))
+                  .forEach(System.out::println);
+
+            // Example 7: Stream of Enums
+            System.out.println("\nEnum values filtered by condition:");
+            enum Day {
+                MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+            }
+            EnumSet.allOf(Day.class).stream()
+                   .filter(day -> day.name().startsWith("S"))
+                   .forEach(System.out::println);
+        }
+
     }

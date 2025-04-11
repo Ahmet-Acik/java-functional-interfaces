@@ -12,6 +12,9 @@ package org.example.functionalInterfaces;
             demonstratePrebuiltFunctionalInterfaces();
             demonstrateStreamAndOptional();
             demonstrateCompletableFuture();
+            demonstrateAdvancedStreamOperations();
+            demonstrateMapStreamOperations();
+
         }
 
         private static void demonstrateCustomFunctionalInterface() {

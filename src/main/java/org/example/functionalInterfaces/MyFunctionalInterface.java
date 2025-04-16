@@ -14,6 +14,7 @@ public interface MyFunctionalInterface {
      */
     void execute();
 
+
     /**
      * A static method in the functional interface.
      * This method can be called directly using the interface name.

@@ -32,10 +32,17 @@ public class FileAndDirectoryOperations {
         listDirectories(Paths.get("src/main/resources/MovedDirectory")); // List all subdirectories in the specified directory
     }
 
-    // Create a file if it does not exist
-    public static void createFile(Path file) throws IOException {
-        if (!Files.exists(file)) { // Check if the file already exists
-            Files.createFile(file); // Create the file
+    // Example of exception handling for file creation
+    public static void createFile(Path file) {
+        try {
+            if (!Files.exists(file)) { // Check if the file already exists
+                Files.createFile(file); // Create the file
+            } else {
+                System.out.println("File already exists: " + file);
+            }
+        } catch (IOException e) {
+            System.err.println("Error creating file: " + file);
+            e.printStackTrace();
         }
     }
 

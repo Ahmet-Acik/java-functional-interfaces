@@ -91,10 +91,17 @@ public class FileAndDirectoryOperations {
         }
     }
 
-    // Create a directory if it does not exist
-    public static void createDirectory(Path directory) throws IOException {
-        if (!Files.exists(directory)) { // Check if the directory already exists
-            Files.createDirectory(directory); // Create the directory
+    // Example of exception handling for directory creation
+    public static void createDirectory(Path directory) {
+        try {
+            if (!Files.exists(directory)) { // Check if the directory already exists
+                Files.createDirectory(directory); // Create the directory
+            } else {
+                System.out.println("Directory already exists: " + directory);
+            }
+        } catch (IOException e) {
+            System.err.println("Error creating directory: " + directory);
+            e.printStackTrace();
         }
     }
 

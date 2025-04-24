@@ -33,9 +33,9 @@ public class FunctionalInterfaces {
         System.out.println("\n=== Prebuilt Functional Interfaces ===");
 
         Predicate<Integer> isPositive = num -> num > 0;
-        System.out.println("Is positive: " + isPositive.test(10));
+        System.out.println("Predicate Is positive: " + isPositive.test(10));
         BiPredicate<String, Integer> hasLength = (str, len) -> str.length() == len;
-        System.out.println("Has length 5: " + hasLength.test("Hello", 5));
+        System.out.println("BiPredicate Has length 5: " + hasLength.test("Hello", 5));
 
         Consumer<List<String>> printList = list -> list.forEach(System.out::println);
         printList.accept(Arrays.asList("Apple", "Banana", "Cherry"));

@@ -11,26 +11,36 @@ public class FileAndDirectoryOperations {
 
     private static final Logger logger = Logger.getLogger(FileAndDirectoryOperations.class.getName());
 
-    public static void main(String[] args) {
-        Path file = Paths.get("src/main/resources/ExampleFile.txt");
-        Path directory = Paths.get("src/main/resources/ExampleDirectory");
+  public static void main(String[] args) {
+    // File paths
+    Path exampleFile = Paths.get("src/main/resources/ExampleFile.txt");
+    Path renamedFile = Paths.get("src/main/resources/RenamedFile.txt");
+    Path copiedFile = Paths.get("src/main/resources/CopiedFile.txt");
+    Path movedFile = Paths.get("src/main/resources/MovedFile.txt");
 
-        createFile(file);
-        writeFile(file, "Hello, World!\n");
-        appendToFile(file, "Appending this line.\n");
-        readFile(file);
-        renameFile(file, Paths.get("src/main/resources/RenamedFile.txt"));
-        copyFile(Paths.get("src/main/resources/RenamedFile.txt"), Paths.get("src/main/resources/CopiedFile.txt"));
-        moveFile(Paths.get("src/main/resources/CopiedFile.txt"), Paths.get("src/main/resources/MovedFile.txt"));
+    // Directory paths
+    Path exampleDirectory = Paths.get("src/main/resources/ExampleDirectory");
+    Path renamedDirectory = Paths.get("src/main/resources/RenamedDirectory");
+    Path copiedDirectory = Paths.get("src/main/resources/CopiedDirectory");
+    Path movedDirectory = Paths.get("src/main/resources/MovedDirectory");
 
-        createDirectory(directory);
-        listFiles(directory).ifPresent(files -> files.forEach(System.out::println));
-        renameDirectory(directory, Paths.get("src/main/resources/RenamedDirectory"));
-        copyDirectory(Paths.get("src/main/resources/RenamedDirectory"), Paths.get("src/main/resources/CopiedDirectory"));
-        moveDirectory(Paths.get("src/main/resources/CopiedDirectory"), Paths.get("src/main/resources/MovedDirectory"));
-        listDirectories(Paths.get("src/main/resources/MovedDirectory")).ifPresent(dirs -> dirs.forEach(dir -> System.out.println(dir)));
-    }
+    // File operations
+    createFile(exampleFile); // Create a new file
+    writeFile(exampleFile, "Hello, World!\n"); // Write content to the file
+    appendToFile(exampleFile, "Appending this line.\n"); // Append additional content to the file
+    readFile(exampleFile); // Read and print the file content
+    renameFile(exampleFile, renamedFile); // Rename the file
+    copyFile(renamedFile, copiedFile); // Copy the renamed file
+    moveFile(copiedFile, movedFile); // Move the copied file
 
+    // Directory operations
+    createDirectory(exampleDirectory); // Create a new directory
+    listFiles(exampleDirectory).ifPresent(files -> files.forEach(System.out::println)); // List files in the directory
+    renameDirectory(exampleDirectory, renamedDirectory); // Rename the directory
+    copyDirectory(renamedDirectory, copiedDirectory); // Copy the renamed directory
+    moveDirectory(copiedDirectory, movedDirectory); // Move the copied directory
+    listDirectories(movedDirectory).ifPresent(dirs -> dirs.forEach(System.out::println)); // List subdirectories in the moved directory
+}
     public static void createFile(Path file) {
         try {
             if (checkExists(file, true)) {

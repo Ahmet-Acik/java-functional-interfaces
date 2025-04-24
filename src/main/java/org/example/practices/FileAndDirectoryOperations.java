@@ -8,88 +8,119 @@ import java.util.stream.Stream;
 public class FileAndDirectoryOperations {
 
     public static void main(String[] args) throws IOException {
-        // Define the file path using a platform-independent approach
         Path file = Paths.get("src/main/resources/ExampleFile.txt");
-
-        // Define the directory path using a platform-independent approach
         Path directory = Paths.get("src/main/resources/ExampleDirectory");
 
-        // Create a file if it does not exist
+        // File operations
+        createFile(file);
+        writeFile(file, "Hello, World!\n");
+        appendToFile(file, "Appending this line.\n");
+        renameFile(file, Paths.get("src/main/resources/RenamedFile.txt"));
+        copyFile(Paths.get("src/main/resources/RenamedFile.txt"), Paths.get("src/main/resources/CopiedFile.txt"));
+        moveFile(Paths.get("src/main/resources/CopiedFile.txt"), Paths.get("src/main/resources/MovedFile.txt"));
+
+        // Directory operations
+        createDirectory(directory);
+        listFiles(directory);
+        renameDirectory(directory, Paths.get("src/main/resources/RenamedDirectory"));
+        copyDirectory(Paths.get("src/main/resources/RenamedDirectory"), Paths.get("src/main/resources/CopiedDirectory"));
+        moveDirectory(Paths.get("src/main/resources/CopiedDirectory"), Paths.get("src/main/resources/MovedDirectory"));
+        listDirectories(Paths.get("src/main/resources/MovedDirectory"));
+    }
+
+    // Create a file
+    public static void createFile(Path file) throws IOException {
         if (!Files.exists(file)) {
-            Files.createFile(file); // Ensure the file is created only if it doesn't already exist
+            Files.createFile(file);
         }
+    }
 
-        // Write content to the file (overwrites existing content)
-        Files.writeString(file, "Hello, World!\n", StandardOpenOption.WRITE); // Use StandardOpenOption.WRITE for overwriting
+    // Write content to a file
+    public static void writeFile(Path file, String content) throws IOException {
+        Files.writeString(file, content, StandardOpenOption.WRITE);
+    }
 
-        // Append content to the file
-        Files.writeString(file, "Appending this line.\n", StandardOpenOption.APPEND); // Use StandardOpenOption.APPEND to add content
+    // Append content to a file
+    public static void appendToFile(Path file, String content) throws IOException {
+        Files.writeString(file, content, StandardOpenOption.APPEND);
+    }
 
-        // Rename a file
-        Path renamedFile = Paths.get("src/main/resources/RenamedFile.txt");
-        if (Files.exists(file)) {
-            Files.move(file, renamedFile, StandardCopyOption.REPLACE_EXISTING); // Rename the file, replacing if it already exists
+    // Rename a file
+    public static void renameFile(Path source, Path target) throws IOException {
+        if (Files.exists(source)) {
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
 
-        // Copy a file
-        Path copiedFile = Paths.get("src/main/resources/CopiedFile.txt");
-        if (Files.exists(renamedFile)) {
-            Files.copy(renamedFile, copiedFile, StandardCopyOption.REPLACE_EXISTING); // Copy the file, replacing if it already exists
+    // Copy a file
+    public static void copyFile(Path source, Path target) throws IOException {
+        if (Files.exists(source)) {
+            Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
 
-        // Move a file
-        Path movedFile = Paths.get("src/main/resources/MovedFile.txt");
-        if (Files.exists(copiedFile)) {
-            Files.move(copiedFile, movedFile, StandardCopyOption.REPLACE_EXISTING); // Move the file, replacing if it already exists
+    // Move a file
+    public static void moveFile(Path source, Path target) throws IOException {
+        if (Files.exists(source)) {
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
 
-        // List all files in a directory
+    // Create a directory
+    public static void createDirectory(Path directory) throws IOException {
+        if (!Files.exists(directory)) {
+            Files.createDirectory(directory);
+        }
+    }
+
+    // List all files in a directory
+    public static void listFiles(Path directory) throws IOException {
         if (Files.exists(directory)) {
             try (Stream<Path> files = Files.list(directory)) {
-                files.forEach(System.out::println); // Print all files in the directory
+                files.forEach(System.out::println);
             }
         }
+    }
 
-        // Create a directory if it does not exist
-        if (!Files.exists(directory)) {
-            Files.createDirectory(directory); // Create the directory only if it doesn't already exist
+    // Rename a directory
+    public static void renameDirectory(Path source, Path target) throws IOException {
+        if (Files.exists(source)) {
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
 
-        // Rename a directory
-        Path renamedDirectory = Paths.get("src/main/resources/RenamedDirectory");
-        if (Files.exists(directory)) {
-            Files.move(directory, renamedDirectory, StandardCopyOption.REPLACE_EXISTING); // Rename the directory, replacing if it already exists
-        }
-
-        // Copy a directory recursively
-        Path copiedDirectory = Paths.get("src/main/resources/CopiedDirectory");
-        if (Files.exists(renamedDirectory)) {
-            Files.walkFileTree(renamedDirectory, new SimpleFileVisitor<>() {
+    // Copy a directory recursively
+    public static void copyDirectory(Path source, Path target) throws IOException {
+        if (Files.exists(source)) {
+            Files.walkFileTree(source, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    Path targetDir = copiedDirectory.resolve(renamedDirectory.relativize(dir));
-                    Files.createDirectories(targetDir); // Create target directories
+                    Path targetDir = target.resolve(source.relativize(dir));
+                    Files.createDirectories(targetDir);
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Files.copy(file, copiedDirectory.resolve(renamedDirectory.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(file, target.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
                     return FileVisitResult.CONTINUE;
                 }
             });
         }
+    }
 
-        // Move a directory
-        Path movedDirectory = Paths.get("src/main/resources/MovedDirectory");
-        if (Files.exists(copiedDirectory)) {
-            Files.move(copiedDirectory, movedDirectory, StandardCopyOption.REPLACE_EXISTING); // Move the directory, replacing if it already exists
+    // Move a directory
+    public static void moveDirectory(Path source, Path target) throws IOException {
+        if (Files.exists(source)) {
+            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
         }
+    }
 
-        // List all subdirectories in a directory
-        if (Files.exists(movedDirectory)) {
-            try (Stream<Path> directories = Files.list(movedDirectory)) {
-                directories.filter(Files::isDirectory).forEach(System.out::println); // Print all subdirectories
+    // List all subdirectories in a directory
+    public static void listDirectories(Path directory) throws IOException {
+        if (Files.exists(directory)) {
+            try (Stream<Path> directories = Files.list(directory)) {
+                directories.filter(Files::isDirectory).forEach(System.out::println);
             }
         }
     }
